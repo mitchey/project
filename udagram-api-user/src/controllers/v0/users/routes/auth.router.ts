@@ -8,7 +8,6 @@ import * as jwt from 'jsonwebtoken';
 import {NextFunction} from 'connect';
 
 import * as EmailValidator from 'email-validator';
-import {config} from 'bluebird';
 
 const router: Router = Router();
 
@@ -38,7 +37,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
   }
 
   const token = tokenBearer[1];
-  return jwt.verify(token, c.config.jwt.secret, (err, decoded) => {
+  return jwt.verify(token, c.config.jwt.secret, (err) => {
     if (err) {
       return res.status(500).send({auth: false, message: 'Failed to authenticate.'});
     }
@@ -99,9 +98,9 @@ router.post('/', async (req: Request, res: Response) => {
 
   const generatedHash = await generatePassword(plainTextPassword);
 
-  const newUser = await new User({
-    email: email,
-    passwordHash: generatedHash,
+  const newUser: User = User.build({
+        email: email,
+        passwordHash: generatedHash,
   });
 
   const savedUser = await newUser.save();

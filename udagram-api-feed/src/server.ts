@@ -1,16 +1,14 @@
 import cors from 'cors';
 import express from 'express';
-import {sequelize} from './sequelize';
-
+import { sequelize } from './sequelize';
 import {IndexRouter} from './controllers/v0/index.router';
-
 import bodyParser from 'body-parser';
 import {config} from './config/config';
-import {V0_FEED_MODELS} from './controllers/v0/model.index';
+import { FeedItem } from './controllers/v0/feed/models/FeedItem';
 
 
 (async () => {
-  await sequelize.addModels(V0_FEED_MODELS);
+  sequelize.addModels([FeedItem]);
 
   console.debug("Initialize database connection...");
   await sequelize.sync();
