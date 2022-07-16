@@ -27,4 +27,3 @@ after_success:
   - docker push mitchey/udagram-api-user
   - docker push mitchey/udagram-frontend
   - docker push mitchey/udagram-reverseproxy
-|
